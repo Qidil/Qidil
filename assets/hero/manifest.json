@@ -1,10 +1,10 @@
 {
   "generator": "portfolio-card-v1",
-  "version": "b93126f2",
+  "version": "fe158c5f",
   "assets": {
-    "desktopDark": "portfolio-card-b93126f2-dark.svg",
-    "desktopLight": "portfolio-card-b93126f2-light.svg",
-    "mobileDark": "portfolio-card-b93126f2-mobile-dark.svg",
-    "mobileLight": "portfolio-card-b93126f2-mobile-light.svg"
+    "desktopDark": "portfolio-card-fe158c5f-dark.svg",
+    "desktopLight": "portfolio-card-fe158c5f-light.svg",
+    "mobileDark": "portfolio-card-fe158c5f-mobile-dark.svg",
+    "mobileLight": "portfolio-card-fe158c5f-mobile-light.svg"
   }
 }

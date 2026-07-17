@@ -1,10 +1,10 @@
 <p align="center">
   <picture>
-    <source media="(max-width: 760px) and (prefers-color-scheme: dark)" srcset="./assets/hero/portfolio-card-b93126f2-mobile-dark.svg">
-    <source media="(max-width: 760px)" srcset="./assets/hero/portfolio-card-b93126f2-mobile-light.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero/portfolio-card-b93126f2-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./assets/hero/portfolio-card-b93126f2-light.svg">
-    <img src="./assets/hero/portfolio-card-b93126f2-dark.svg" alt="Aidhil Prima Abdiguna - Frontend Developer & Half Vibe Coder" width="100%">
+    <source media="(max-width: 760px) and (prefers-color-scheme: dark)" srcset="./assets/hero/portfolio-card-fe158c5f-mobile-dark.svg">
+    <source media="(max-width: 760px)" srcset="./assets/hero/portfolio-card-fe158c5f-mobile-light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/hero/portfolio-card-fe158c5f-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/hero/portfolio-card-fe158c5f-light.svg">
+    <img src="./assets/hero/portfolio-card-fe158c5f-dark.svg" alt="Aidhil Prima Abdiguna - Frontend Developer & Half Vibe Coder" width="100%">
   </picture>
 </p>
 

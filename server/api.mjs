@@ -10,6 +10,7 @@ import { generateProfileReadmeContent } from "../scripts/lib/readme.mjs";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const projectRoot = resolve(__dirname, "..");
 const outputDir = resolve(projectRoot, "output");
+const assetsDir = resolve(projectRoot, "assets/hero");
 
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
 
@@ -44,7 +45,6 @@ app.post("/api/generate", upload.single("image"), async (req, res) => {
     }
 
     const sourceBuffer = Buffer.from(req.file.buffer);
-    const assetsDir = resolve(outputDir, "assets/hero");
 
     const manifest = await generateHeroAssets({
       config,
@@ -54,7 +54,7 @@ app.post("/api/generate", upload.single("image"), async (req, res) => {
 
     const readme = generateProfileReadmeContent({ config, manifest });
 
-    const readmePath = resolve(outputDir, "README.md");
+    const readmePath = resolve(projectRoot, "README.md");
     await writeFile(readmePath, readme);
 
     const configPath = resolve(outputDir, "profile.config.json");
@@ -74,7 +74,7 @@ app.post("/api/generate", upload.single("image"), async (req, res) => {
 
 app.get("/api/preview/:filename", async (req, res) => {
   try {
-    const filePath = resolve(outputDir, "assets/hero", req.params.filename);
+    const filePath = resolve(assetsDir, req.params.filename);
     const content = await readFile(filePath, "utf8");
     res.setHeader("Content-Type", "image/svg+xml");
     res.send(content);
@@ -85,7 +85,7 @@ app.get("/api/preview/:filename", async (req, res) => {
 
 app.get("/api/download/:filename", async (req, res) => {
   try {
-    const filePath = resolve(outputDir, "assets/hero", req.params.filename);
+    const filePath = resolve(assetsDir, req.params.filename);
     const content = await readFile(filePath, "utf8");
     res.setHeader("Content-Disposition", `attachment; filename="${req.params.filename}"`);
     res.setHeader("Content-Type", "image/svg+xml");

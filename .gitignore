@@ -1,0 +1,20 @@
+node_modules/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+
+input/
+portrait-source.*
+*.source.png
+*.source.jpg
+*.source.jpeg
+
+assets/hero/
+profile.config.json
+
+# AI tooling (OpenCode)
+.agents/
+.opencode/
+skills-lock.json

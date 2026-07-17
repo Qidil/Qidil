@@ -1,0 +1,29 @@
+{
+  "name": "portfolio-card-generator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Profile README generator with web-based form UI.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "node server/dev.mjs",
+    "generate": "node scripts/generate.mjs",
+    "generate:hero": "node scripts/generate-hero.mjs",
+    "generate:readme": "node scripts/generate-readme.mjs",
+    "validate": "node scripts/validate.mjs",
+    "check": "npm run validate"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "multer": "^1.4.5-lts.1",
+    "sharp": "^0.34.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "vite": "^6.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

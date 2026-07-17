@@ -1,0 +1,10 @@
+{
+  "generator": "portfolio-card-v1",
+  "version": "b93126f2",
+  "assets": {
+    "desktopDark": "portfolio-card-b93126f2-dark.svg",
+    "desktopLight": "portfolio-card-b93126f2-light.svg",
+    "mobileDark": "portfolio-card-b93126f2-mobile-dark.svg",
+    "mobileLight": "portfolio-card-b93126f2-mobile-light.svg"
+  }
+}

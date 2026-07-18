@@ -17,3 +17,7 @@ profile.config.json
 .agents/
 .opencode/
 skills-lock.json
+
+# Internal notes
+TODO-FUTURE.md
+project-context/

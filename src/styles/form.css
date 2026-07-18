@@ -397,6 +397,16 @@ select option {
   color: var(--text-secondary);
 }
 
+.custom-colors {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.02);
+}
+
 .form-actions {
   text-align: center;
   margin: 24px 0;

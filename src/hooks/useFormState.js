@@ -21,6 +21,9 @@ export function useFormState() {
       const parts = path.split(".");
       let obj = next;
       for (let i = 0; i < parts.length - 1; i++) {
+        if (obj[parts[i]] === undefined || obj[parts[i]] === null) {
+          obj[parts[i]] = isNaN(parts[i + 1]) ? {} : [];
+        }
         obj = obj[parts[i]];
       }
       obj[parts[parts.length - 1]] = value;

@@ -20,8 +20,8 @@
         "about": {
           "type": "array",
           "minItems": 1,
-          "maxItems": 3,
-          "items": { "type": "string", "minLength": 20, "maxLength": 320 }
+          "maxItems": 1,
+          "items": { "type": "string", "minLength": 20, "maxLength": 999 }
         }
       }
     },
@@ -33,13 +33,13 @@
         "primary": { "type": "string", "minLength": 2, "maxLength": 28 },
         "direction": { "type": "string", "minLength": 2, "maxLength": 38 },
         "themes": { "type": "string", "minLength": 2, "maxLength": 46 },
-        "narrative": { "type": "string", "minLength": 20, "maxLength": 420 }
+        "narrative": { "type": "string", "minLength": 20, "maxLength": 999 }
       }
     },
     "focus": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 6,
+      "maxItems": 3,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -53,7 +53,7 @@
     "projects": {
       "type": "array",
       "minItems": 1,
-      "maxItems": 6,
+      "maxItems": 4,
       "items": {
         "type": "object",
         "additionalProperties": false,
@@ -96,7 +96,7 @@
       "required": ["enabled", "limit"],
       "properties": {
         "enabled": { "type": "boolean" },
-        "limit": { "type": "integer", "minimum": 1, "maximum": 10 }
+        "limit": { "type": "integer", "minimum": 1, "maximum": 3 }
       }
     },
     "appearance": {
@@ -104,7 +104,16 @@
       "additionalProperties": false,
       "required": ["palette"],
       "properties": {
-        "palette": { "enum": ["signal", "ocean", "solar"] }
+        "palette": { "enum": ["signal", "ocean", "solar", "custom"] },
+        "customColors": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "primary": { "type": "string", "pattern": "^[A-Fa-f0-9]{6}$" },
+            "secondary": { "type": "string", "pattern": "^[A-Fa-f0-9]{6}$" },
+            "accent": { "type": "string", "pattern": "^[A-Fa-f0-9]{6}$" }
+          }
+        }
       }
     },
     "footer": { "type": "string", "minLength": 4, "maxLength": 120 }

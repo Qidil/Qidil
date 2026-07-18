@@ -6,21 +6,21 @@ export const fieldConfig = {
     affiliation: { label: "Affiliation", min: 2, max: 40, section: "Profile" },
     location: { label: "Location", min: 2, max: 32, section: "Profile" },
     status: { label: "Status", min: 2, max: 42, section: "Profile" },
-    about: { label: "About", min: 20, max: 320, isArray: true, minItems: 1, maxItems: 3, section: "Profile" },
+    about: { label: "About", min: 20, max: 999, isArray: true, minItems: 1, maxItems: 1, section: "Profile" },
   },
   research: {
     primary: { label: "Primary Field", min: 2, max: 28, section: "Research" },
     direction: { label: "Direction", min: 2, max: 38, section: "Research" },
     themes: { label: "Themes", min: 2, max: 46, section: "Research" },
-    narrative: { label: "Narrative", min: 20, max: 420, section: "Research" },
+    narrative: { label: "Narrative", min: 20, max: 999, section: "Research" },
   },
   focus: {
-    _array: { minItems: 1, maxItems: 6, section: "Focus" },
+    _array: { minItems: 1, maxItems: 3, section: "Focus" },
     name: { label: "Focus Name", min: 2, max: 28 },
     description: { label: "Description", min: 10, max: 180 },
   },
   projects: {
-    _array: { minItems: 1, maxItems: 6, section: "Projects" },
+    _array: { minItems: 1, maxItems: 4, section: "Projects" },
     name: { label: "Project Name", min: 2, max: 36 },
     url: { label: "Repository URL", min: 1, max: 500, isUrl: true },
     homepage: { label: "Homepage URL", min: 0, max: 500, isUrl: true, optional: true },
@@ -42,10 +42,10 @@ export const fieldConfig = {
   },
   activity: {
     enabled: { label: "Enable Activity Updates", type: "boolean", section: "Activity" },
-    limit: { label: "Activity Item Limit", type: "number", min: 1, max: 10 },
+    limit: { label: "Activity Item Limit", type: "number", min: 1, max: 3 },
   },
   appearance: {
-    palette: { label: "Color Palette", type: "select", options: ["signal", "ocean", "solar"], section: "Appearance" },
+    palette: { label: "Color Palette", type: "select", options: ["signal", "ocean", "solar", "custom"], section: "Appearance" },
   },
   footer: { label: "Footer Text", min: 4, max: 120, section: "Footer" },
 };
@@ -92,6 +92,6 @@ export const defaultFormData = {
   techStack: [""],
   links: [{ label: "", value: "", url: "", logo: "", color: "" }],
   activity: { enabled: true, limit: 5 },
-  appearance: { palette: "signal" },
+  appearance: { palette: "signal", customColors: { primary: "FF6B6B", secondary: "4ECDC4", accent: "45B7D1" } },
   footer: "",
 };

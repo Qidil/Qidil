@@ -21,34 +21,93 @@ const paletteDefinitions = {
   }
 };
 
+function hexToHsl(hex) {
+  const r = parseInt(hex.slice(0, 2), 16) / 255;
+  const g = parseInt(hex.slice(2, 4), 16) / 255;
+  const b = parseInt(hex.slice(4, 6), 16) / 255;
+  const max = Math.max(r, g, b), min = Math.min(r, g, b);
+  let h, s, l = (max + min) / 2;
+  if (max === min) { h = s = 0; } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+      case g: h = ((b - r) / d + 2) / 6; break;
+      case b: h = ((r - g) / d + 4) / 6; break;
+    }
+  }
+  return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
+}
+
+function hslToString(h, s, l) { return `hsl(${h}, ${s}%, ${l}%)`; }
+
+function generateCustomPalette(customColors) {
+  const primaryHsl = hexToHsl(customColors.primary);
+  const secondaryHsl = hexToHsl(customColors.secondary);
+  const accentHsl = hexToHsl(customColors.accent);
+  
+  const darken = (hsl, amount) => ({ h: hsl.h, s: hsl.s, l: Math.max(0, hsl.l - amount) });
+  const lighten = (hsl, amount) => ({ h: hsl.h, s: hsl.s, l: Math.min(100, hsl.l + amount) });
+  const desaturate = (hsl, amount) => ({ h: hsl.h, s: Math.max(0, hsl.s - amount), l: hsl.l });
+
+  return {
+    dark: {
+      backgroundStart: "#0A0A0F",
+      backgroundEnd: "#111118",
+      panel: "#0D0D14",
+      primary: "#E5E7EB",
+      muted: "#64748B",
+      cyan: `#${customColors.primary}`,
+      blue: `#${customColors.secondary}`,
+      violet: `#${customColors.accent}`,
+      green: hslToString(160, 70, 45),
+      red: hslToString(0, 80, 65),
+      scanBlend: "screen"
+    },
+    light: {
+      backgroundStart: "#FAFAFA",
+      backgroundEnd: "#F5F5F5",
+      panel: "#FFFFFF",
+      primary: "#1F2937",
+      muted: "#64748B",
+      cyan: hslToString(primaryHsl.h, primaryHsl.s, 35),
+      blue: hslToString(secondaryHsl.h, secondaryHsl.s, 40),
+      violet: hslToString(accentHsl.h, accentHsl.s, 40),
+      green: hslToString(160, 70, 30),
+      red: hslToString(0, 70, 40),
+      scanBlend: "multiply"
+    }
+  };
+}
+
 const layouts = {
   desktop: {
     width: 1180,
-    height: 720,
+    height: 610,
     outerRadius: 18,
     titlebar: { x: 3, y: 3, width: 1174, height: 34, radius: 16 },
-    visualPanel: { x: 14, y: 64, width: 488, height: 578, radius: 14 },
-    infoPanel: { x: 508, y: 48, width: 655, height: 610, radius: 14 },
+    visualPanel: { x: 14, y: 64, width: 488, height: 468, radius: 14 },
+    infoPanel: { x: 508, y: 48, width: 655, height: 500, radius: 14 },
     visualTitle: { x: 30, y: 62 },
     infoTitle: { x: 524, y: 62 },
     portrait: { columns: 96, rows: 64, x: 78, y: 90, lineHeight: 6.65, fontSize: 6.5 },
-    portraitClip: { x: 24, y: 82, width: 470, height: 548, radius: 12 },
+    portraitClip: { x: 24, y: 82, width: 470, height: 438, radius: 12 },
     system: { x: 528, y: 82, width: 620, lineHeight: 21.5, fontSize: 14 },
-    footerY: 695
+    footerY: 585
   },
   mobile: {
     width: 720,
-    height: 1200,
+    height: 1080,
     outerRadius: 22,
     titlebar: { x: 20, y: 20, width: 680, height: 42, radius: 14 },
     visualPanel: { x: 48, y: 94, width: 624, height: 350, radius: 14 },
-    infoPanel: { x: 48, y: 470, width: 624, height: 646, radius: 14 },
+    infoPanel: { x: 48, y: 470, width: 624, height: 526, radius: 14 },
     visualTitle: { x: 66, y: 116 },
     infoTitle: { x: 66, y: 492 },
     portrait: { columns: 84, rows: 54, x: 180, y: 132, lineHeight: 5.7, fontSize: 6.6 },
     portraitClip: { x: 58, y: 122, width: 604, height: 312, radius: 12 },
     system: { x: 72, y: 520, width: 574, lineHeight: 21, fontSize: 13 },
-    footerY: 1165
+    footerY: 1045
   }
 };
 
@@ -78,28 +137,11 @@ function buildProfileLines(config) {
     lines.push({ type: "row", key: project.name, value: project.heroLabel });
   });
 
-  lines.push({ type: "blank" }, { type: "section", value: "GRID.LINKS" });
-  config.links.slice(0, 2).forEach((link) => {
-    lines.push({ type: "row", key: link.label, value: link.value });
-  });
-
-  if (config.techStack && config.techStack.length > 0) {
-    lines.push({ type: "blank" }, { type: "section", value: "TECH.STACK" });
-    const techLine = config.techStack.join(" · ");
-    lines.push({ type: "row", key: "Stack", value: truncate(techLine, 52) });
-  }
-
   if (config.focus && config.focus.length > 0) {
     lines.push({ type: "blank" }, { type: "section", value: "FOCUS.AREAS" });
     config.focus.slice(0, 3).forEach((f) => {
       lines.push({ type: "row", key: f.name, value: truncate(f.description, 48) });
     });
-  }
-
-  if (config.profile.about && config.profile.about.length > 0) {
-    const aboutText = config.profile.about.filter(Boolean).join(" ");
-    lines.push({ type: "blank" }, { type: "section", value: "ABOUT.ME" });
-    lines.push({ type: "row", key: "Bio", value: truncate(aboutText, 62) });
   }
 
   const footerText = (config.footer && config.footer.trim()) || "signal.locked > PROFILE / BUILD / SHARE";
@@ -312,7 +354,9 @@ export async function generateHeroAssets({ config, sourceBuffer, outputDirectory
     .update(sourceBuffer)
     .digest("hex")
     .slice(0, 8);
-  const palette = paletteDefinitions[config.appearance.palette];
+  const palette = config.appearance.palette === "custom" 
+    ? generateCustomPalette(config.appearance.customColors || { primary: "FF6B6B", secondary: "4ECDC4", accent: "45B7D1" })
+    : paletteDefinitions[config.appearance.palette];
   const desktopPortrait = await samplePortrait(sourceBuffer, layouts.desktop.portrait.columns, layouts.desktop.portrait.rows);
   const mobilePortrait = await samplePortrait(sourceBuffer, layouts.mobile.portrait.columns, layouts.mobile.portrait.rows);
   const assets = {

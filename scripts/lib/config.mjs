@@ -65,8 +65,8 @@ export function validateConfig(config) {
   });
 
   assert(config.activity && typeof config.activity.enabled === "boolean", "activity.enabled must be true or false.");
-  assert(Number.isInteger(config.activity.limit) && config.activity.limit >= 1 && config.activity.limit <= 10, "activity.limit must be between 1 and 10.");
-  assert(["signal", "ocean", "solar"].includes(config.appearance?.palette), "appearance.palette must be signal, ocean, or solar.");
+  assert(Number.isInteger(config.activity.limit) && config.activity.limit >= 1 && config.activity.limit <= 3, "activity.limit must be between 1 and 3.");
+  assert(["signal", "ocean", "solar", "custom"].includes(config.appearance?.palette), "appearance.palette must be signal, ocean, solar, or custom.");
   assertText(config.footer, "footer", 120);
 
   return config;
@@ -117,10 +117,11 @@ export function buildConfigFromFormData(formData) {
     })),
     activity: {
       enabled: Boolean(formData.activity.enabled),
-      limit: Math.min(10, Math.max(1, parseInt(formData.activity.limit) || 5)),
+      limit: Math.min(3, Math.max(1, parseInt(formData.activity.limit) || 3)),
     },
     appearance: {
       palette: formData.appearance.palette || "signal",
+      customColors: formData.appearance.customColors || { primary: "FF6B6B", secondary: "4ECDC4", accent: "45B7D1" },
     },
     footer: formData.footer.trim(),
   };

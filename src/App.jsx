@@ -195,21 +195,21 @@ export default function App() {
             id="profile-status"
           />
           <ArrayField
-            label="About Paragraphs"
+            label="About"
             items={formData.profile.about}
             onChange={(v) => updateField("profile.about", v)}
             onAdd={() => addArrayItem("profile.about", "")}
             onRemove={(i) => removeArrayItem("profile.about", i)}
             fields={[{
               key: "about",
-              label: "About Paragraph",
-              min: 20, max: 320,
+              label: "About",
+              min: 20, max: 999,
               placeholder: "e.g. I'm a CS student passionate about AI, open source, and building tools that make a difference. Currently exploring LLMs and decentralized systems.",
-              help: "1-3 paragraphs about yourself (20-320 chars each). This appears in the README 'About Me' section."
+              help: "Tell us about yourself (20-999 chars). This appears in the README 'About Me' section."
             }]}
             error={getFieldError("profile.about")}
             path="profile.about"
-            minItems={1} maxItems={3}
+            minItems={1} maxItems={1}
           />
         </section>
 
@@ -249,9 +249,9 @@ export default function App() {
             label="Narrative"
             value={formData.research.narrative}
             onChange={(v) => updateField("research.narrative", v)}
-            min={20} max={420}
+            min={20} max={999}
             placeholder="e.g. My research focuses on building autonomous AI agents that can reason, plan, and execute complex tasks. I believe in open-source AI and decentralized intelligence as the future of collaboration."
-            help="A longer narrative about your research direction (20-420 chars). Appears in the README 'Research Direction' section."
+            help="A longer narrative about your research direction (20-999 chars). Appears in the README 'Research Direction' section."
             error={getFieldError("research.narrative")}
             id="research-narrative"
           />
@@ -271,7 +271,7 @@ export default function App() {
             ]}
             error={getFieldError("focus")}
             path="focus"
-            minItems={1} maxItems={6}
+            minItems={1} maxItems={3}
           />
         </section>
 
@@ -293,7 +293,7 @@ export default function App() {
             ]}
             error={getFieldError("projects")}
             path="projects"
-            minItems={1} maxItems={6}
+            minItems={1} maxItems={4}
           />
         </section>
 
@@ -352,9 +352,9 @@ export default function App() {
               label="Activity Item Limit"
               value={String(formData.activity.limit)}
               onChange={(v) => updateField("activity.limit", parseInt(v) || 5)}
-              min={1} max={10}
-              placeholder="e.g. 5"
-              help="Number of recent activity items to show (1-10)."
+              min={1} max={3}
+              placeholder="e.g. 3"
+              help="Number of recent activity items to show (1-3)."
               error={getFieldError("activity.limit")}
               id="activity-limit"
             />
@@ -367,7 +367,7 @@ export default function App() {
             label="Color Palette"
             value={formData.appearance.palette}
             onChange={(v) => updateField("appearance.palette", v)}
-            options={["signal", "ocean", "solar"]}
+            options={["signal", "ocean", "solar", "custom"]}
             error={getFieldError("appearance.palette")}
             id="appearance-palette"
           />
@@ -382,7 +382,54 @@ export default function App() {
                 <span>{p.charAt(0).toUpperCase() + p.slice(1)}</span>
               </div>
             ))}
+            <div
+              className={`palette-swatch ${formData.appearance.palette === "custom" ? "active" : ""}`}
+              onClick={() => updateField("appearance.palette", "custom")}
+            >
+              <div className="swatch-color" style={{ background: `linear-gradient(135deg, #${formData.appearance.customColors?.primary || "FF6B6B"}, #${formData.appearance.customColors?.secondary || "4ECDC4"}, #${formData.appearance.customColors?.accent || "45B7D1"})` }}></div>
+              <span>Custom</span>
+            </div>
           </div>
+          {formData.appearance.palette === "custom" && (
+            <div className="custom-colors">
+              <TextField
+                label="Primary Color (hex)"
+                value={formData.appearance.customColors?.primary || "FF6B6B"}
+                onChange={(v) => updateField("appearance.customColors.primary", v)}
+                min={6} max={6}
+                pattern="^[A-Fa-f0-9]{6}$"
+                patternHint="6-char hex, e.g. FF6B6B"
+                placeholder="FF6B6B"
+                help="Primary gradient color (no #)."
+                error={getFieldError("appearance.customColors.primary")}
+                id="appearance-primary-color"
+              />
+              <TextField
+                label="Secondary Color (hex)"
+                value={formData.appearance.customColors?.secondary || "4ECDC4"}
+                onChange={(v) => updateField("appearance.customColors.secondary", v)}
+                min={6} max={6}
+                pattern="^[A-Fa-f0-9]{6}$"
+                patternHint="6-char hex, e.g. 4ECDC4"
+                placeholder="4ECDC4"
+                help="Secondary gradient color (no #)."
+                error={getFieldError("appearance.customColors.secondary")}
+                id="appearance-secondary-color"
+              />
+              <TextField
+                label="Accent Color (hex)"
+                value={formData.appearance.customColors?.accent || "45B7D1"}
+                onChange={(v) => updateField("appearance.customColors.accent", v)}
+                min={6} max={6}
+                pattern="^[A-Fa-f0-9]{6}$"
+                patternHint="6-char hex, e.g. 45B7D1"
+                placeholder="45B7D1"
+                help="Accent color (no #)."
+                error={getFieldError("appearance.customColors.accent")}
+                id="appearance-accent-color"
+              />
+            </div>
+          )}
         </section>
 
         <section className="form-section" id="section-footer">

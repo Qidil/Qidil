@@ -41,9 +41,7 @@ ${renderLinks(config.links)}
 
 ---
 
-<p align="center">
 ${techBadges}
-</p>
 
 ---
 

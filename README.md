@@ -14,7 +14,6 @@
 
 ---
 
-<p align="center">
 ![React.js](https://img.shields.io/badge/React.js--61DAFB?logo=react&logoColor=black)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS--06B6D4?logo=tailwindcss&logoColor=white)
 ![Figma](https://img.shields.io/badge/Figma--F24E1E?logo=figma&logoColor=white)
@@ -25,7 +24,6 @@
 ![Git & GitHub](https://img.shields.io/badge/Git_%26_GitHub--6B7280)
 ![Electron](https://img.shields.io/badge/Electron--47848F?logo=electron&logoColor=white)
 ![Etc](https://img.shields.io/badge/Etc--6B7280)
-</p>
 
 ---
 

@@ -1,5 +1,6 @@
 import { writeFile } from "node:fs/promises";
 import { resolve } from "node:path";
+import { resolveTechBadges } from "./tech-icons.mjs";
 
 function badgeSegment(value) {
   return encodeURIComponent(String(value).replaceAll("-", "--").replaceAll("_", "__").replaceAll(" ", "_"));
@@ -13,9 +14,9 @@ function renderLinks(links) {
   }).join("\n");
 }
 
-export function generateProfileReadmeContent({ config, manifest }) {
+export async function generateProfileReadmeContent({ config, manifest }) {
   const about = config.profile.about.filter(Boolean).join("\n\n");
-  const techStack = config.techStack.map(t => `\`${t}\``).join(" ");
+  const techBadges = await resolveTechBadges(config.techStack);
 
   const focusList = config.focus.map(f => `- **${f.name}**: ${f.description}`).join("\n");
 
@@ -40,21 +41,13 @@ ${renderLinks(config.links)}
 
 ---
 
-<div align="center">
-
-## 👤 About Me
-
-**${config.profile.name}** · ${config.profile.headline}  
-📍 ${config.profile.location} · 🏛️ ${config.profile.affiliation}  
-📌 ${config.profile.status}
-
-</div>
+<p align="center">
+${techBadges}
+</p>
 
 ---
 
-### 💡 Bio
-
-${about}
+### ${about}
 
 ---
 
@@ -80,12 +73,6 @@ ${projectCards}
 
 ---
 
-### 💻 Tech Stack
-
-${techStack}
-
----
-
 <div align="center">
 
 ${config.footer}
@@ -95,7 +82,7 @@ ${config.footer}
 }
 
 export async function generateProfileReadme({ config, manifest, readmePath }) {
-  const readme = generateProfileReadmeContent({ config, manifest });
+  const readme = await generateProfileReadmeContent({ config, manifest });
   await writeFile(resolve(readmePath), readme);
   return readme;
 }

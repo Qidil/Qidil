@@ -129,11 +129,13 @@ export function validateAll(data) {
     errors.push({ path: "techStack", messages: ["Min. 1 technology"] });
   }
   techArr.forEach((val, i) => {
-    const len = (val || "").length;
+    const item = typeof val === "string" ? { name: val } : val || {};
+    const len = (item.name || "").length;
     const msgs = [];
     if (len < 1) msgs.push("Min. 1 character");
-    if (len > 999) msgs.push("Max. 999 characters");
-    if (msgs.length) errors.push({ path: `techStack[${i}]`, messages: msgs });
+    if (len > 30) msgs.push("Max. 30 characters");
+    if (item.version && String(item.version).length > 20) msgs.push("Max. 20 characters");
+    if (msgs.length) errors.push({ path: `techStack[${i}].name`, messages: msgs });
   });
 
   const linksArr = data.links || [];

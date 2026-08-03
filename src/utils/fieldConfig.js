@@ -30,7 +30,8 @@ export const fieldConfig = {
   },
   techStack: {
     _array: { minItems: 1, maxItems: 18, section: "Tech Stack" },
-    _item: { label: "Technology", min: 1, max: 30 },
+    name: { label: "Technology", min: 1, max: 30 },
+    version: { label: "Version", min: 0, max: 20, optional: true },
   },
   links: {
     _array: { minItems: 1, maxItems: 4, section: "Links" },
@@ -89,7 +90,7 @@ export const defaultFormData = {
   },
   focus: [{ name: "", description: "" }],
   projects: [{ name: "", url: "", homepage: "", focus: "", summary: "", heroLabel: "" }],
-  techStack: [""],
+  techStack: [{ name: "", version: "" }],
   links: [{ label: "", value: "", url: "", logo: "", color: "" }],
   activity: { enabled: true, limit: 5 },
   appearance: { palette: "signal", customColors: { primary: "FF6B6B", secondary: "4ECDC4", accent: "45B7D1" } },

@@ -303,13 +303,15 @@ export default function App() {
             label="Technologies"
             items={formData.techStack}
             onChange={(v) => updateField("techStack", v)}
-            onAdd={() => addArrayItem("techStack", "")}
+            onAdd={() => addArrayItem("techStack", { name: "", version: "" })}
             onRemove={(i) => removeArrayItem("techStack", i)}
-            autoGrow={true}
-            fields={[{ key: "tech", label: "Technology", min: 1, max: 999, placeholder: "e.g. React", help: "One technology per item." }]}
+            fields={[
+              { key: "name", label: "Technology", min: 1, max: 30, placeholder: "e.g. React", help: "One technology per item. Press + to add another." },
+              { key: "version", label: "Version (optional)", min: 0, max: 20, optional: true, placeholder: "e.g. 19", help: "Optional version shown on the badge, e.g. React 19." },
+            ]}
             error={getFieldError("techStack")}
             path="techStack"
-            minItems={1} maxItems={999}
+            minItems={1} maxItems={18}
           />
         </section>
 

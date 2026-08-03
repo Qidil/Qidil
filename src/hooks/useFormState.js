@@ -1,11 +1,36 @@
 import { useState, useCallback } from "react";
 import { defaultFormData } from "../utils/fieldConfig.js";
 
+function migrateTechStack(techStack) {
+  if (!Array.isArray(techStack)) return [{ name: "", version: "" }];
+  const items = [];
+  for (const item of techStack) {
+    if (typeof item === "string") {
+      item.split(",").forEach((chunk) => {
+        const name = chunk.trim();
+        if (name) items.push({ name, version: "" });
+      });
+    } else if (item && typeof item === "object") {
+      items.push({ name: (item.name || "").trim(), version: (item.version || "").trim() });
+    }
+  }
+  if (items.length === 0) items.push({ name: "", version: "" });
+  return items;
+}
+
+function migrateFormData(parsed) {
+  const next = { ...defaultFormData, ...parsed };
+  next.techStack = migrateTechStack(parsed.techStack);
+  return next;
+}
+
 export function useFormState() {
   const [formData, setFormData] = useState(() => {
     try {
       const saved = localStorage.getItem("portfolio-card-draft");
-      return saved ? JSON.parse(saved) : defaultFormData;
+      if (!saved) return defaultFormData;
+      const parsed = JSON.parse(saved);
+      return migrateFormData(parsed);
     } catch {
       return defaultFormData;
     }

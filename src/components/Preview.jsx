@@ -1,7 +1,12 @@
 import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeRaw from "rehype-raw";
+import "github-markdown-css";
 
 export default function Preview({ previewData, isGenerating }) {
   const [saveStatus, setSaveStatus] = useState(null);
+  const [readmeTab, setReadmeTab] = useState("rendered");
 
   if (isGenerating) {
     return (
@@ -72,9 +77,33 @@ export default function Preview({ previewData, isGenerating }) {
 
       <div className="preview-readme">
         <h3>README.md Preview</h3>
-        <div className="readme-content">
-          <pre>{readme}</pre>
+        <div className="readme-tabs">
+          <button
+            type="button"
+            className={`readme-tab ${readmeTab === "rendered" ? "active" : ""}`}
+            onClick={() => setReadmeTab("rendered")}
+          >
+            Rendered
+          </button>
+          <button
+            type="button"
+            className={`readme-tab ${readmeTab === "source" ? "active" : ""}`}
+            onClick={() => setReadmeTab("source")}
+          >
+            Source
+          </button>
         </div>
+        {readmeTab === "rendered" ? (
+          <div className="readme-rendered markdown-body">
+            <ReactMarkdown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
+              {rewriteReadmePaths(readme)}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          <div className="readme-content">
+            <pre>{readme}</pre>
+          </div>
+        )}
       </div>
 
       <div className="preview-actions">
@@ -103,6 +132,10 @@ function formatAssetName(key) {
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (s) => s.toUpperCase())
     .replace("Mobile ", "Mobile ");
+}
+
+function rewriteReadmePaths(readme) {
+  return readme.replaceAll("./assets/hero/", "/api/preview/");
 }
 
 function downloadConfig(config) {

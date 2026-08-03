@@ -52,7 +52,7 @@ app.post("/api/generate", upload.single("image"), async (req, res) => {
       outputDirectory: assetsDir,
     });
 
-    const readme = generateProfileReadmeContent({ config, manifest });
+    const readme = await generateProfileReadmeContent({ config, manifest });
 
     const readmePath = resolve(projectRoot, "README.md");
     await writeFile(readmePath, readme);

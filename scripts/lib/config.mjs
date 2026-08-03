@@ -53,7 +53,12 @@ export function validateConfig(config) {
   });
 
   assert(Array.isArray(config.techStack) && config.techStack.length >= 1, "techStack must contain at least 1 item.");
-  config.techStack.forEach((item, index) => assertText(item, `techStack[${index}]`, 999));
+  config.techStack.forEach((item, index) => {
+    assertText(item?.name, `techStack[${index}].name`, 30);
+    if (item?.version) {
+      assert(typeof item.version === "string" && item.version.length <= 20, `techStack[${index}].version must be 20 characters or fewer.`);
+    }
+  });
 
   assert(Array.isArray(config.links) && config.links.length >= 1 && config.links.length <= 4, "links must contain 1 to 4 items.");
   config.links.forEach((link, index) => {
@@ -76,7 +81,9 @@ export function buildConfigFromFormData(formData) {
   const cleanAbout = (formData.profile.about || []).filter((a) => a && a.trim());
   const cleanFocus = (formData.focus || []).filter((f) => f.name && f.name.trim());
   const cleanProjects = (formData.projects || []).filter((p) => p.name && p.name.trim());
-  const cleanTech = (formData.techStack || []).filter((t) => t && t.trim());
+  const cleanTech = (formData.techStack || [])
+    .map((item) => (typeof item === "string" ? { name: item, version: "" } : item))
+    .filter((t) => t && t.name && t.name.trim());
   const cleanLinks = (formData.links || []).filter((l) => l.label && l.label.trim());
 
   return {
@@ -107,7 +114,7 @@ export function buildConfigFromFormData(formData) {
       summary: p.summary.trim(),
       heroLabel: p.heroLabel.trim(),
     })),
-    techStack: cleanTech.map((t) => t.trim()),
+    techStack: cleanTech.map((t) => ({ name: t.name.trim(), version: (t.version || "").trim() })),
     links: cleanLinks.map((l) => ({
       label: l.label.trim(),
       value: l.value.trim(),

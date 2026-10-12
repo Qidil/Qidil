@@ -55,7 +55,7 @@
 
 - **[cerdas-cermat-scoreboard](https://github.com/Qidil/cerdas-cermat-scoreboard)** — Desktop application for displaying competition scores in real time using dual-window layout, Display for audience screen and Control Panel for operator screen.
 - **[Inventory Management System](https://github.com/Qidil/inventory-management-system)** — An inventory management system for recording, monitoring, and managing inventory.
-- **[CV ATS Reviewer](https://github.com/Qidil/cv-ats-reviewer-n8n)** — Local web application that analyzes CV against target job description, provides an ATS score, and rewrites the CV (only with your approval) using free AI model.
+- **[Doctor CV](https://github.com/Qidil/doctorcv)** — Local web application that analyzes CV against target job description, provides an ATS score, and rewrites the CV (only with your approval) using free AI model.
 
 ---
 
